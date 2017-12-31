@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>form - mutil select</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+<body>
+<style type="text/css">
+.checkbox{
+    display: inline-block;
+    width: 60%;
+}
+.checkbox .check-output{
+    width: 100%;
+    position: relative;
+}
+.checkbox .check-input{
+    z-index: 500;
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    padding: 15px 0 5px;
+    background-color: #f4f4f4;
+    border: 1px solid rgb(234, 234, 234);
+    -webkit-box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    border-color: #eaeaea;
+    border-top: none;
+    max-height: 160px;
+    overflow-y: scroll;
+}
+.checkbox .check-input label{
+    padding: 5px 15px;
+}
+.checkbox .check-input label.checked{
+    background-color: #ddd;
+}
+</style>
+    <form id="info-add-form">
+        <label class="fly-group fancy-text">
+            <span>球员：</span>
+            <div class="checkbox">
+                <input type="text" class="check-output form-control" placeholder="请选择飞行团队成员">
+                <div class="check-input">
+                    <label class="fancy-checkbox">流川枫</label>
+                    <label class="fancy-checkbox">花道</label>
+                    <label class="fancy-checkbox">大空翼</label>
+                    <label class="fancy-checkbox">流川枫</label>
+                    <label class="fancy-checkbox">花道</label>
+                    <label class="fancy-checkbox">大空翼</label>
+                    <label class="fancy-checkbox">流川枫</label>
+                    <label class="fancy-checkbox">花道</label>
+                    <label class="fancy-checkbox">大空翼</label>
+                </div>
+            </div>
+            
+        </label>
+    </form>
+<script type="text/javascript">
+/* 样式代码 */
+var $checkbox = $(".checkbox"),
+    $checkedOutput = $(".checkbox .check-output"),
+    $checkedInput = $(".checkbox .check-input");
+
+$checkedOutput.on("click", function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    $checkedOutput[0].disabled = true;
+    $checkedInput.show();
+})
+$checkedInput.on("click", function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    $checkedOutput[0].disabled = false;
+    if(e.target.nodeName=="LABEL"){
+        /* 由于考虑到 form 表单所以取消了这个复杂的方案
+        // 拿到点击对应 input[checkbox]
+        $(e.target).prev()[0].checked = !$(e.target).prev()[0].checked;
+        var flyStr =　"";
+        for(var item of $checkedInput.find("input")){
+            if(item.checked){
+                // 拿到 input 对应的 span 标签
+                flyStr += $(item).next().html() + "，";
+            }
+        }
+        */
+        $target = $(e.target);
+        if($target.hasClass("checked")){
+            $target.removeClass("checked");
+        } else {
+            $target.addClass("checked");
+        }
+        var flyStr =　"";
+        for(var item of $checkedInput.find("label")){
+            if($(item).hasClass("checked")){
+                flyStr += item.innerHTML + "，"
+            }
+        }
+        flyStr=flyStr.substring(0, flyStr.length-1);
+        $checkedOutput[0].value = flyStr;
+    }
+    $checkedInput.hide();
+})
+</script>
+</body>
+</html>
